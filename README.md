@@ -20,7 +20,7 @@ Este repositorio busca dar respaldo al libro en línea mencionado. Los archivos 
     - *CEP_sep-oct_2017.sav*
     - *CEP_sep-oct_2017.xlsx*
     - *ENE 2019 02 EFM.csv*
-    - *seleccion_CEP.RData
+    - *seleccion_CEP.RData*
 
 4. La carpeta *uso de RMarkdown* incluye los archivos necesarios para replicar el ejemplo de utilización de RMarkdown del capítulo 9: sintaxis RMarkdown (*Boccardo & Ruiz. Sintaxis Respaldo Ejercicios Manual Apoyo Docente (2019).Rmd*), base de datos (*CEP_lista.RData*), archivo de bibliografía (*bibliografía.bib*), formato de referencias (*apa.csl*) y el documento resultante del ejercicio (*Boccardo & Ruiz. Sintaxis Respaldo Ejercicios Manual Apoyo Docente (2019).pdf*).
 
