@@ -1,0 +1,214 @@
+---
+title: "Ejemplo Uso de RMarkdown"
+subtitle: "RStudio para Estadística Descriptiva en Ciencias Sociales. Manual de apoyo docente para la asignatura Estadística Descriptiva. Carrera de Sociología, Universidad de Chile (segunda edición)"
+author: "Giorgio Boccardo Bosoni y Felipe Ruiz Bruzzone"
+date: '\today'
+bibliography: bibliografia.bib
+csl: apa.csl   
+linkcolor: blue
+urlcolor: blue
+lang: es
+output:
+  pdf_document: 
+    fig_caption: yes
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+load("CEP_lista.RData")
+```
+
+\pagebreak
+
+# Presentación
+
+Esta sintaxis de RMarkdown constituye el material de apoyo para el capítulo dedicado a esta aplicación en el documento *Uso de RStudio para Estadística Univariada en Ciencias Sociales. Manual de apoyo docente, asignatura Estadística Descriptiva - Semestre de otoño 2018 (primera edición)*
+
+Para ser ejecutado correctamente se debe guardar en la misma carpeta los archivos *bibliografia.bib*, *apa.csl* y , disponibles en el siguiente [repositorio en línea]().
+
+#Títulos, subtítulos y saltos de página
+
+Las siguientes líneas constituyen ejemplos de títulos en un orden jerárquico descendente.
+
+# Título 1 (nivel de mayor jerarquía)
+
+## Título 2 (nivel de segunda jerarquía)
+
+### Título 3 (nivel de tercera jerarquía)
+
+El siguiente comando permite introducir saltos de página.
+
+\pagebreak
+
+#Énfasis de texto
+
+Las siguientes líneas indican cómo introducir diferentes énfasis de formato en el cuerpo del texto.
+
+**negrita**
+
+*cursiva*
+  
+_subrayado_
+
+> Texto con un tabulado mayor al párrafo normal.
+
+Texto que está hablando de un tema y quiere poner una nota al pie [^1].
+
+[^1]: texto de la nota al pie
+
+Para ingresar un enlace asociado a una palabra, se debe encerrar la palabra o palabras 
+que [se busca sea un enlace](www.url.com)
+
+## Ejemplo desarrollado en  anual
+
+Así, si se aplica lo recién anotado, podemos configurar palabras en **negrita** y en 
+*cursiva*.
+
+> Podemos incluir un párrafo con un tabulado mayor al del párrafo regular.
+
+Asimismo, en cualquier parte del documento podemos incluir una nota al pie [^1].
+
+[^1]: texto de la nota al pie. En cualquier parte del documento, aquí lo haremos en esta nota al pie, podemos definir enlaces que [redireccione a páginas web](https://cran.r-project.org/).
+
+\pagebreak
+
+#Construcción de listas
+
+Las siguientes líneas indican cómo construir listas de elementos.
+
+#Construcción de una lista numerada
+
+1. Elemento 1
+2. Elemento 2
+
+#Construcción de una lista sin números
+
+* Elemento 1
+* Elemento 2
+
+#Lista sin números, con sublista numerada (tabulado es de 4 espacios)
+
++ Elemento 1
++ Elemento 2
+    1. Sub elemento 1.
+    2. Sub elemento2.
+
+\pagebreak
+
+# Construcción de tablas
+
+Considerando la siguiente estructura de tabulaciones, es posible construir tablas de sde RMarkdown:
+
+Table: Tabla simple
+
+ **Título Columna 1** |  **Título columna 2** | 
+----------------------| ----------------------|
+*Texto 1* | Texto 2 
+*Texto 3* | Texto 4
+
+#Bibliografía
+
+Abriendo un paréntesis de corchetes en el cuerpo del documento e incluyendo tal texto luego de una arroba, se incorporá una [@elousa_existe_2009] o más referencias bibliográficas [@elousa_existe_2009, 22; @grolemund_introduction_2014].
+
+El apartado de referencias siempre se incluye al final del documento, después del último elemento ingresado por el usuario, lo que permite incorporar un título adecuado para el listado de referencias bibliográficas.
+
+#Configuración de trozos de código de R, en RMarkown
+
+La introducción de códigos de R se hace respetando la siguiente estructura. Todo los que esté entre las tres cremillas y la "r" entre corchetes curvos, se considerará como sintaxis de R.
+
+```{r}
+
+```
+
+#Presentación de resultados básicos en RMarkdown
+
+## Tablas de frecuencias
+
+```{r, warning=FALSE}
+#Ejercicio 33.1
+library(summarytools)
+freq(CEP$sexo_factor, style = "simple", justify = "center", omit.headings = TRUE)
+```
+
+```{r, results='asis', warning=FALSE}
+#Ejercicio 33.2
+library(summarytools)
+freq(CEP$sexo_factor, style = "rmarkdown", justify = "center", omit.headings = TRUE,
+     report.nas = FALSE)
+```
+
+## Estadísiticos univariados de alcance muestral
+
+```{r, results='asis', message=FALSE}
+#Ejercicio 33.3
+descr(CEP$edad, style = "simple", justify = "center", omit.headings = T)
+```
+
+```{r, results='asis', message=FALSE}
+#Ejercicio 33.4
+descr(CEP$edad, transpose = TRUE, 
+      stats = c("N.Valid", "min","q1","med","mean","sd","q3","max","iqr"),
+      style = "rmarkdown", justify = "center", omit.headings = T)
+```
+## Estadísticos univariados de alcance poblacional
+
+### Intervalos de confianza para proporciones
+
+```{r,results ='asis'}
+
+#Ejercicio 21
+library(PropCIs)
+table(CEP$eval_econ_factor)
+nrow(CEP)
+exactci(x = 730, n = 1424, conf.level = 0.95)
+
+#Definición de cada valor como vector simple
+linf <- (0.4863248*100)
+lsup <- (0.5389039*100)
+nc <- 0.95*100
+
+#Configuración de un data.frame a partir de los vectore creados
+ICP <- cbind(linf, lsup, nc)
+
+#Paquete necesario para imprimir tablas
+library(knitr)
+#Construcción de tabla de resultados con formato
+kable(ICP, caption = "Tabla 1. Estimación de un intervalo de confianza para proporciones",
+      align = 'c', digits = round(2),
+      col.names = c("Límite inferior","Límite superior", 
+                    "Nivel de confianza"))
+```
+
+### Intervalos de confianza para medias
+
+```{r, results ='asis'}
+# Intervalos de confianza
+library(Publish)
+#Nivel de confianza por defecto.
+ci.mean(CEP$satisfaccion_vida)
+
+ic <- as.data.frame(ci.mean(CEP$satisfaccion_vida))
+
+kable(ic[c(1,3:5,2)], caption = "Tabla 2. Estimación de un intevalo de confianza para media",
+      align = 'c', digits = round(2),
+      col.names = c("Media", "Límite superior","Límite inferior", 
+                    "Nivel de confianza","Error estándar"))
+```
+
+## Gráficos
+```{r, fig.height = 4, fig.width = 4, fig.align = "center"}
+library(ggplot2)
+#Gráfico de barras 2: sexo en frecuencias absolutas
+ggplot(CEP, aes(x = sexo_factor)) +
+  geom_bar(width = 0.4,  fill=rgb(0.1,1,0.5,0.7)) +
+  scale_x_discrete("Sexo") +     # configuración eje X (etiqueta del eje)
+  scale_y_continuous("Frecuencia") +
+  labs(title = "Gráfico de barras 2",
+       subtitle = "Frecuencia absoluta de la variable sexo")
+
+```
+
+#Referencias
