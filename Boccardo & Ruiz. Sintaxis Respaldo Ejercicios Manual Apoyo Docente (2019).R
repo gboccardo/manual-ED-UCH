@@ -452,6 +452,26 @@ class(ENE_ponderada)
 
 svytotal(~PET, ENE_ponderada)
 
+# Ejercicio 7.25
+
+svyciprop(~I(PET==">=15"), ENE_ponderada, method = "li")
+
+# Ejercicio 7.26
+
+#Frecuencias expandidas para variable edad
+svytotal(~PET, ENE_ponderada)
+
+#IC para frecuencias absolutas
+confint(svytotal(~PET, ENE_ponderada), level = 0.95)
+
+# Ejercicio 7.27
+
+# Cálculo de media expandida para la variable edad
+svymean(~edad, ENE_ponderada)
+
+# Cálculo de intervalo de confianza para la media expandida de variable edad
+confint(svymean(~edad, ENE_ponderada), level = 0.95)
+
 # ---- CAPÍTULO 8 ----
 
 # Ejercicio 8.1
